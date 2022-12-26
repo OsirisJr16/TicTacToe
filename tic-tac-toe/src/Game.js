@@ -9,11 +9,11 @@ const styles={
     fontSize : '30px'
 }
 const Game = () => {
-    // state initial board
+   
     const [history, setHistory] = useState([Array(9).fill(null)])
-    // nombre move state
+
     const [stepNumber, setStepNumber] = useState(0)
-    // state next player to move
+
     const [xisnext, setXisnext] = useState(true)
 
     const winner  = calculateWinner(history[stepNumber])
@@ -30,19 +30,47 @@ const Game = () => {
         setXisnext(!xisnext)
 
     }
-    const refreshPage=()=>{
-        window.location.reload()
+    function refresh() {
+        setStepNumber(0) 
+        setHistory([Array(9).fill(null)]) 
     }
+
+    function test(){
+
+        return ''
+    }
+
+    function nextMove(){
+        return <div style={styles}>
+                {'Next move : '+(xisnext ? 'X' : 'O')}
+                </div>
+        
+    }
+
+    let partiestate  = test() ; 
+    let win = (nextMove())
+    if(winner){
+    if(winner==='X' || winner==='O'){
+        win = "winner" + ":"+ winner
+        partiestate = <button className='restart' onClick={refresh}> New Game </button>
+    }else{
+        win = "Draw"
+        partiestate = <button className='restart' onClick={refresh}> New Game </button>
+    }
+   }
 
 
     return (
         <>
             <Board squares={history[stepNumber]} onClick={click}/>
-            <button className='restart' onClick={ refreshPage }>New Game</button>
-            <div style={styles}>
-                {winner ? 'winner: '+ winner : 'Next Player: '+ (xisnext ? 'X' : 'O')}
+            <p style={styles}>
+                {win}
+            </p>
+            <p>
+                {partiestate}
+            </p>
             
-            </div>
+            
         </>
     )
 }
